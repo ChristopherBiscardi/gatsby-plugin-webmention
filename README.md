@@ -33,7 +33,8 @@ module.exports = {
         mentions: true,
         pingbacks: false,
         forwardPingbacksAsWebmentions: "https://example.com/endpoint",
-        domain: "example.com"
+        domain: "example.com",
+        token: process.env.WEBMENTIONS_TOKEN
       }
     }
   ]

@@ -4,6 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "camelcase-keys": "^5.0.0",
+    "gatsby-node-helpers": "^0.3.0",
+    "node-fetch": "^2.3.0",
+    "query-string": "^6.2.0",
     "react-helmet": "*"
   }
 }
