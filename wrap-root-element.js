@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Helment } from "react-helmet";
+import { Helmet } from "react-helmet";
 
 export const wrapRootElement = (
   { element },
