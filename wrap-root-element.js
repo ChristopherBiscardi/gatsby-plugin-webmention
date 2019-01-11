@@ -44,7 +44,7 @@ export const wrapRootElement = (
         }),
       identity.github &&
         React.createElement("link", {
-          href: `https://github.com/${identify.github}`,
+          href: `https://github.com/${identity.github}`,
           rel: "me"
         })
     ),
