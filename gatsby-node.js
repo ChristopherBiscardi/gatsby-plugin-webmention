@@ -12,8 +12,8 @@ const {
 });
 const ENTRY_TYPE = `Entry`;
 const WebMentionEntryNode = createNodeFactory(ENTRY_TYPE, entry => ({
-  id: generateNodeId(ENTRY_TYPE, entry.wmId.toString()),
-  ...entry
+  ...entry,
+  id: generateNodeId(ENTRY_TYPE, entry.wmId.toString())
 }));
 
 // get all mentions for a token and a specific domain
