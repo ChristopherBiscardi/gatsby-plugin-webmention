@@ -12,7 +12,7 @@ const {
 });
 const ENTRY_TYPE = `Entry`;
 const WebMentionEntryNode = createNodeFactory(ENTRY_TYPE, entry => ({
-  id: generateNodeId(ENTRY_TYPE, entry.wmId),
+  id: generateNodeId(ENTRY_TYPE, entry.wmId.toString()),
   ...entry
 }));
 
