@@ -17,11 +17,12 @@ const WebMentionEntryNode = createNodeFactory(ENTRY_TYPE, entry => ({
 }));
 
 // get all mentions for a token and a specific domain
-const getMentions = async ({ domain, token }) => {
+const getMentions = async ({ domain, token, perPage = 10000 }) => {
   return fetch(
     `https://webmention.io/api/mentions.jf2?${queryString.stringify({
       domain,
-      token
+      token,
+      "per-page": perPage
     })}`
   )
     .then(response => response.json())
@@ -35,7 +36,7 @@ const getMentions = async ({ domain, token }) => {
 
 exports.sourceNodes = async (
   { actions, createNodeId, createContentDigest, reporter },
-  { token, domain }
+  { token, domain, fetchLimit }
 ) => {
   if (!token || !domain) {
     reporter.warn(
@@ -46,7 +47,7 @@ exports.sourceNodes = async (
     return;
   }
   const { createNode, deleteNode } = actions;
-  return getMentions({ token, domain }).then(mentions => {
+  return getMentions({ token, domain, perPage: fetchLimit }).then(mentions => {
     mentions.forEach(entry => createNode(WebMentionEntryNode(entry)));
   });
   //  createNode()
