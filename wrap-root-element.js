@@ -8,8 +8,8 @@ export const wrapRootElement = (
     pingbacks = false,
     webmentions = true,
     forwardPingbacksAsWebmentions = false,
-    identity
-  }
+    identity = {}
+  } = {}
 ) =>
   React.createElement(
     Fragment,
@@ -33,16 +33,16 @@ export const wrapRootElement = (
         username &&
         React.createElement("link", {
           rel: "pingback",
-          href: `https://webmention.io/webmention?forward=${
-            forwardPingbacksAsWebmentions
-          }`
+          href: `https://webmention.io/webmention?forward=${forwardPingbacksAsWebmentions}`
         }),
-      identity.twitter &&
+      identity &&
+        identity.twitter &&
         React.createElement("link", {
           href: `https://twitter.com/${identity.twitter}`,
           rel: "me"
         }),
-      identity.github &&
+      identity &&
+        identity.github &&
         React.createElement("link", {
           href: `https://github.com/${identity.github}`,
           rel: "me"
