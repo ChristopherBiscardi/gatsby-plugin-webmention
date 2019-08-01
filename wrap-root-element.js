@@ -47,6 +47,12 @@ export const wrapRootElement = (
           href: `https://github.com/${identity.github}`,
           rel: "me"
         })
+      identity &&
+        identity.email &&
+        React.createElement("link", {
+          href: `mailto:${identity.email}`,
+          rel: "me"
+        })
     ),
     element
   );
