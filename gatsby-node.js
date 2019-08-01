@@ -48,7 +48,7 @@ exports.sourceNodes = async (
       url: String
       published: Date @dateformat
       wmReceived: Date @dateformat
-      wmId: Number
+      wmId: Int
       wmPrivate: Boolean
       wmTarget: String
       wmSource: String
