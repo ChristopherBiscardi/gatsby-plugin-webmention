@@ -35,9 +35,44 @@ const getMentions = async ({ domain, token, perPage = 10000 }) => {
 };
 
 exports.sourceNodes = async (
-  { actions, createNodeId, createContentDigest, reporter },
+  { actions, reporter },
   { token, domain, fetchLimit }
 ) => {
+  const { createNode, createTypes } = actions;
+
+  const typeDefs = `
+    type WebMentionEntry implements Node {
+      type: String
+      author: WebMentionAuthor
+      content: WebMentionContent
+      url: String
+      published: Date @dateformat
+      wmReceived: Date @dateformat
+      wmId: Number
+      wmPrivate: Boolean
+      wmTarget: String
+      wmSource: String
+      wmProperty: String
+      likeOf: String
+      mentionOf: String
+      inReplyTo: String
+      repostOf: String
+      bookmarkOf: String
+      rsvp: String
+    }
+    type WebMentionAuthor {
+      type: String
+      name: String
+      url: String
+      photo: String
+    }
+    type WebMentionContent {
+      text: String
+      html: String
+    }
+  `;
+  createTypes(typeDefs);
+
   if (!token || !domain) {
     reporter.warn(
       "`gatsby-plugin-webmention`: token and domain must be set to fetch webmentions"
@@ -46,9 +81,8 @@ exports.sourceNodes = async (
     reporter.warn(`is domain set: ${!!domain}`);
     return;
   }
-  const { createNode, deleteNode } = actions;
+
   return getMentions({ token, domain, perPage: fetchLimit }).then(mentions => {
     mentions.forEach(entry => createNode(WebMentionEntryNode(entry)));
   });
-  //  createNode()
 };
