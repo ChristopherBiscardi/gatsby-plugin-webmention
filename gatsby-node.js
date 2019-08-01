@@ -5,8 +5,7 @@ const createNodeHelpers = require("gatsby-node-helpers").default;
 
 const {
   createNodeFactory,
-  generateNodeId,
-  generateTypeName
+  generateNodeId
 } = createNodeHelpers({
   typePrefix: `WebMention`
 });
@@ -34,7 +33,7 @@ const getMentions = async ({ domain, token, perPage = 10000 }) => {
     });
 };
 
-exports.sourceNodes = async (
+exports.sourceNodes = (
   { actions, reporter },
   { token, domain, fetchLimit }
 ) => {
