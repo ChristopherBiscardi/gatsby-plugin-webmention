@@ -27,8 +27,11 @@ module.exports = {
       options: {
         username: undefined, // webmention.io username
         identity: {
+          // you need to specify at least one of the identities
+          // to be able to log in webmention.io
           github: "username",
-          twitter: "username" // no @
+          twitter: "username", // no @
+          email: "username@example.com"
         },
         mentions: true,
         pingbacks: false,
