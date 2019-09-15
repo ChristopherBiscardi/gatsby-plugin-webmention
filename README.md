@@ -2,13 +2,13 @@
 
 A Gatsby plugin that handles installing and sourcing for webmention.io.
 
-# Installation
+## Installation
 
 ```shell
 yarn add gatsby-plugin-webmention
 ```
 
-# Getting Started
+## Getting Started
 
 1. Configure the identities you want to use to log in to
    [webmention.io](https://webmention.io) using the `identity` option.
@@ -16,7 +16,7 @@ yarn add gatsby-plugin-webmention
 1. You can now log into webmention.io and get your username. Put your new
    username in the config as well and redeploy.
 
-# Config
+## Config
 
 ```js
 // gatsby-config.js
@@ -37,6 +37,7 @@ module.exports = {
         pingbacks: false,
         forwardPingbacksAsWebmentions: "https://example.com/endpoint",
         domain: "example.com",
+        fetchLimit: 10000, // number of webmentions to fetch
         token: process.env.WEBMENTIONS_TOKEN
       }
     }
@@ -44,7 +45,7 @@ module.exports = {
 };
 ```
 
-# Brid.gy
+## Brid.gy
 
 Consider setting up [brid.gy](https://brid.gy/) to get Tweets sent as
 webmentions to webmention.io.
