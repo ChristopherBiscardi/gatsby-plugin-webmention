@@ -25,7 +25,9 @@ module.exports = {
     {
       resolve: `gatsby-plugin-webmention`,
       options: {
-        username: undefined, // webmention.io username
+        // required
+        token: process.env.WEBMENTIONS_TOKEN,
+        domain: "example.com",
         identity: {
           // you need to specify at least one of the identities
           // to be able to log in webmention.io
@@ -33,12 +35,13 @@ module.exports = {
           twitter: "username", // no @
           email: "username@example.com"
         },
-        mentions: true,
+
+        // optional
+        username: undefined, // webmention.io username
+        webmentions: true,
         pingbacks: false,
         forwardPingbacksAsWebmentions: "https://example.com/endpoint",
-        domain: "example.com",
-        fetchLimit: 10000, // number of webmentions to fetch
-        token: process.env.WEBMENTIONS_TOKEN
+        fetchLimit: 10000 // number of webmentions to fetch
       }
     }
   ]
