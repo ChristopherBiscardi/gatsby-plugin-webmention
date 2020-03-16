@@ -3,10 +3,7 @@ const queryString = require("query-string");
 const camelcaseKeys = require("camelcase-keys");
 const createNodeHelpers = require("gatsby-node-helpers").default;
 
-const {
-  createNodeFactory,
-  generateNodeId
-} = createNodeHelpers({
+const { createNodeFactory, generateNodeId } = createNodeHelpers({
   typePrefix: `WebMention`
 });
 const ENTRY_TYPE = `Entry`;
@@ -39,45 +36,74 @@ exports.sourceNodes = (
 ) => {
   const { createNode, createTypes } = actions;
 
+  // https://github.com/aaronpk/webmention.io/blob/master/helpers/formats.rb#L65-L212
   const typeDefs = `
     type WebMentionEntry implements Node {
-      type: String
-      author: WebMentionAuthor
-      content: WebMentionContent
+      type: String!
+      author: WebMentionAuthor!
       url: String
       published: Date @dateformat
       wmReceived: Date @dateformat
       wmId: Int
-      wmPrivate: Boolean
-      wmTarget: String
       wmSource: String
+      wmTarget: String
+      name: String
+
+      summary: WebMentionSummary
+
+      photo: [String!]
+      video: [String!]
+      audio: [String!]
+
+      content: WebMentionContent
+
+      swarmCoins: Int
+
+      wmPrivate: Boolean!
       wmProperty: String
+
       likeOf: String
       mentionOf: String
       inReplyTo: String
       repostOf: String
       bookmarkOf: String
       rsvp: String
+
+      rels: WebMentionRel
     }
     type WebMentionAuthor {
-      type: String
+      type: String!
       name: String
       url: String
       photo: String
     }
+    type WebMentionSummary {
+      contentType: String!
+      value: String!
+    }
     type WebMentionContent {
-      text: String
+      contentType: String
+      value: String
+      text: String!
       html: String
+    }
+    type WebMentionRel {
+      canonical: String!
     }
   `;
   createTypes(typeDefs);
 
-  if (!token || !domain) {
+  if (!token) {
     reporter.warn(
-      "`gatsby-plugin-webmention`: token and domain must be set to fetch webmentions"
+      "[gatsby-plugin-webmention] `token` must be set to fetch webmentions."
     );
-    reporter.warn(`is token set: ${!!token}`);
-    reporter.warn(`is domain set: ${!!domain}`);
+    return;
+  }
+
+  if (!domain) {
+    reporter.warn(
+      "[gatsby-plugin-webmention] `domain` must be set to fetch webmentions."
+    );
     return;
   }
 
