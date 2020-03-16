@@ -20,6 +20,8 @@ yarn add gatsby-plugin-webmention
 
 ```js
 // gatsby-config.js
+const { PROPERTY } = require(`gatsby-plugin-webmention`)
+
 module.exports = {
   plugins: [
     {
@@ -42,6 +44,7 @@ module.exports = {
         pingbacks: false,
         forwardPingbacksAsWebmentions: "https://example.com/endpoint",
         fetchLimit: 10000 // number of webmentions to fetch
+        properties: [ PROPERTY.likeOf, PROPERTY.inReplyTo ] // limit the webmentions to fetch by their property
       }
     }
   ]

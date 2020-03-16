@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 const queryString = require("query-string");
 const camelcaseKeys = require("camelcase-keys");
 const createNodeHelpers = require("gatsby-node-helpers").default;
+const { getMentions } = require("./index");
 
 const { createNodeFactory, generateNodeId } = createNodeHelpers({
   typePrefix: `WebMention`
@@ -12,27 +13,9 @@ const WebMentionEntryNode = createNodeFactory(ENTRY_TYPE, entry => ({
   id: generateNodeId(ENTRY_TYPE, entry.wmId.toString())
 }));
 
-// get all mentions for a token and a specific domain
-const getMentions = async ({ domain, token, perPage = 10000 }) => {
-  return fetch(
-    `https://webmention.io/api/mentions.jf2?${queryString.stringify({
-      domain,
-      token,
-      "per-page": perPage
-    })}`
-  )
-    .then(response => response.json())
-    .then(mentions => {
-      if (!mentions || !mentions.children) {
-        return [];
-      }
-      return camelcaseKeys(mentions.children);
-    });
-};
-
 exports.sourceNodes = (
   { actions, reporter },
-  { token, domain, fetchLimit }
+  { token, domain, fetchLimit, properties }
 ) => {
   const { createNode, createTypes } = actions;
 
@@ -107,7 +90,9 @@ exports.sourceNodes = (
     return;
   }
 
-  return getMentions({ token, domain, perPage: fetchLimit }).then(mentions => {
-    mentions.forEach(entry => createNode(WebMentionEntryNode(entry)));
-  });
+  return getMentions({ token, domain, fetchLimit, properties }).then(
+    mentions => {
+      mentions.forEach(entry => createNode(WebMentionEntryNode(entry)));
+    }
+  );
 };
